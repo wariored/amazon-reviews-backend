@@ -1,0 +1,12 @@
+/Users/wariored/Projects/C#Projects/Review/Review.Infrastructure/bin/Debug/netcoreapp3.1/Review.Infrastructure.deps.json
+/Users/wariored/Projects/C#Projects/Review/Review.Infrastructure/bin/Debug/netcoreapp3.1/Review.Infrastructure.dll
+/Users/wariored/Projects/C#Projects/Review/Review.Infrastructure/bin/Debug/netcoreapp3.1/Review.Infrastructure.pdb
+/Users/wariored/Projects/C#Projects/Review/Review.Infrastructure/obj/Debug/netcoreapp3.1/Review.Infrastructure.csprojAssemblyReference.cache
+/Users/wariored/Projects/C#Projects/Review/Review.Infrastructure/obj/Debug/netcoreapp3.1/Review.Infrastructure.AssemblyInfoInputs.cache
+/Users/wariored/Projects/C#Projects/Review/Review.Infrastructure/obj/Debug/netcoreapp3.1/Review.Infrastructure.AssemblyInfo.cs
+/Users/wariored/Projects/C#Projects/Review/Review.Infrastructure/obj/Debug/netcoreapp3.1/Review.Infrastructure.csproj.CoreCompileInputs.cache
+/Users/wariored/Projects/C#Projects/Review/Review.Infrastructure/obj/Debug/netcoreapp3.1/Review.Infrastructure.dll
+/Users/wariored/Projects/C#Projects/Review/Review.Infrastructure/obj/Debug/netcoreapp3.1/Review.Infrastructure.pdb
+/Users/wariored/Projects/C#Projects/Review/Review.Infrastructure/bin/Debug/netcoreapp3.1/Review.Domain.dll
+/Users/wariored/Projects/C#Projects/Review/Review.Infrastructure/bin/Debug/netcoreapp3.1/Review.Domain.pdb
+/Users/wariored/Projects/C#Projects/Review/Review.Infrastructure/obj/Debug/netcoreapp3.1/Review.Infrastructure.csproj.CopyComplete

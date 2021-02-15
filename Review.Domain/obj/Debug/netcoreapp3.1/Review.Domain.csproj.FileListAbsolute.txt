@@ -1,0 +1,9 @@
+/Users/wariored/Projects/C#Projects/Review/Review.Domain/bin/Debug/netcoreapp3.1/Review.Domain.deps.json
+/Users/wariored/Projects/C#Projects/Review/Review.Domain/bin/Debug/netcoreapp3.1/Review.Domain.dll
+/Users/wariored/Projects/C#Projects/Review/Review.Domain/bin/Debug/netcoreapp3.1/Review.Domain.pdb
+/Users/wariored/Projects/C#Projects/Review/Review.Domain/obj/Debug/netcoreapp3.1/Review.Domain.csprojAssemblyReference.cache
+/Users/wariored/Projects/C#Projects/Review/Review.Domain/obj/Debug/netcoreapp3.1/Review.Domain.AssemblyInfoInputs.cache
+/Users/wariored/Projects/C#Projects/Review/Review.Domain/obj/Debug/netcoreapp3.1/Review.Domain.AssemblyInfo.cs
+/Users/wariored/Projects/C#Projects/Review/Review.Domain/obj/Debug/netcoreapp3.1/Review.Domain.csproj.CoreCompileInputs.cache
+/Users/wariored/Projects/C#Projects/Review/Review.Domain/obj/Debug/netcoreapp3.1/Review.Domain.dll
+/Users/wariored/Projects/C#Projects/Review/Review.Domain/obj/Debug/netcoreapp3.1/Review.Domain.pdb

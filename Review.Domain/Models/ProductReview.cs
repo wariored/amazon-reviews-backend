@@ -2,15 +2,15 @@ using System;
 
 namespace Review.Domain.Models
 {
-    public class Rate
+    public class ProductReview
     {
         public string Description { get; set; }
 
         public Customer Customer { get; set; }
         
-        private long _ratingValue;
+        private decimal _ratingValue;
 
-        public long RatingValue
+        public decimal RatingValue
         {
             get => _ratingValue;
             set

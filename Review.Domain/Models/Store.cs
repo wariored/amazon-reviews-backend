@@ -1,6 +1,6 @@
 namespace Review.Domain.Models
 {
-    public class Showroom
+    public class Store
     {
         public string Name { get; set; }
     }

@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Review.Domain.Models;
 using AngleSharp;
+using AngleSharp.Dom;
+using AngleSharp.Html.Dom;
 using AngleSharp.Html.Parser;
 
 
@@ -10,13 +14,44 @@ namespace Review.Infrastructure
 {
     public class ExternalDataExtractor : IDataExtractor
     {
-        public async Task<Product> GetExternalProductByIdAsync(string productId, string strUrl)
+        private readonly IConfiguration _angleSharpConf = Configuration.Default.WithDefaultLoader();
+
+        public async Task<Product> GetExternalProductByIdAsync(string productId, string urlPrefix)
         {
-            var context = BrowsingContext.New(Configuration.Default);
+            var context = BrowsingContext.New(_angleSharpConf);
 
-            var document = await context.OpenAsync(strUrl);
+            var document = await context.OpenAsync(urlPrefix + productId);
 
-            throw new NotImplementedException();
+            return await ConvertHtmlDocumentToProductAsync(productId, document);;
+        }
+
+        private async Task<Product> ConvertHtmlDocumentToProductAsync(string productId, IDocument document)
+        {
+            var reviewsDocument = document.All.First(m => m.LocalName == "div" && m.HasAttribute("id") &&
+                                                          m.GetAttribute("id").Equals("cm_cr-review_list"));
+            var reviews = reviewsDocument.QuerySelectorAll("div.review").Select(review => new Domain.Models.ProductReview
+            {
+                Title = review.QuerySelector("a.review-title").TextContent,
+                Description = review.QuerySelector("span.review-text-content").QuerySelector("span").TextContent,
+                RatingValue = Convert.ToDecimal(review.QuerySelector("i.review-rating").QuerySelector("span")
+                    .TextContent.Substring(0, 3)),
+                Customer = new Customer
+                {
+                    Name = review.QuerySelector("span.a-profile-name").TextContent
+                }
+            }).ToList();
+            var product = new Product
+            {
+                ProductId = productId,
+                Title = document.QuerySelector("a.a-link-normal").TextContent,
+                Store = new Store
+                {
+                    Name = document.QuerySelector("a.a-size-base").TextContent
+                },
+                Reviews = reviews,
+                CreatedDate = DateTime.Now
+            };
+            return await Task.FromResult(product);
         }
     }
 }

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -6,11 +6,8 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Review.Domain\Review.Domain.csproj" />
+      <ProjectReference Include="..\Review.Infrastructure\Review.Infrastructure.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <PackageReference Include="AngleSharp" Version="1.0.0-alpha-844" />
-      <PackageReference Include="MongoDB.Bson" Version="2.12.0-beta1" />
-    </ItemGroup>
 
 </Project>

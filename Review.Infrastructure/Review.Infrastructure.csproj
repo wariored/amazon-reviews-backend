@@ -10,7 +10,7 @@
 
     <ItemGroup>
       <PackageReference Include="AngleSharp" Version="1.0.0-alpha-844" />
-      <PackageReference Include="MongoDB.Bson" Version="2.12.0-beta1" />
+      <PackageReference Include="mongocsharpdriver" Version="2.12.0-beta1" />
     </ItemGroup>
 
 </Project>

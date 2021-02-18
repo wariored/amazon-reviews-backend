@@ -1,5 +1,10 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using MongoDB.Bson;
 using Review.Domain.Models;
+using MongoDB.Driver;
+using Review.Domain.Interfaces.DBSettings;
+
 
 namespace Review.Infrastructure.Services
 {
@@ -7,35 +12,43 @@ namespace Review.Infrastructure.Services
     {
         private readonly IMongoCollection<Product> _productsCollection;
 
-        public ProductService(IProductDatabaseSettings settings)
+        public ProductService(IProductsDatabaseSettings settings)
         {
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
 
-            _productsCollection = database.GetCollection<Product>(settings.BooksCollectionName);
+            _productsCollection = database.GetCollection<Product>(settings.ProductsCollectionName);
         }
 
-        public List<Product> Get() =>
-            _productsCollection.Find(product => true).ToList();
-
-        public Product Get(string id) =>
-            _productsCollection.Find<Product>(product => product.Id == id).FirstOrDefault();
-
-        public Product Create(Product product)
+        public async Task<IEnumerable<Product>> GetListAsync(string sort, int size)
         {
-            _productsCollection.InsertOne(product);
+            var filter = Builders<Product>.Filter.Empty;
+            var bsonSort = sort == "asc" ? Builders<Product>.Sort.Ascending("CreatedDate") : Builders<Product>.Sort.Descending("CreatedDate");
+            var options = new FindOptions<Product>()
+            {
+                Sort = bsonSort,
+                Limit = size
+            };
+            var result = await _productsCollection.FindAsync(filter, options).Result.ToListAsync();
+            return result;
+        }
+
+        public async Task<IEnumerable<Product>> GetListByProductIdAsync(string productId) =>
+           await _productsCollection.FindAsync(product => product.ProductId == productId).Result.ToListAsync();
+
+        public async Task<Product> CreateAsync(Product product)
+        {
+            await _productsCollection.InsertOneAsync(product);
             return product;
         }
 
         public void Update(string id, Product productIn) =>
-            _productsCollection.ReplaceOne(book => book.Id == id, productIn);
+            _productsCollection.ReplaceOne(product => product.ProductId == id, productIn);
 
-        public void Remove(Product productIn) =>
-            _productsCollection.DeleteOne(product => product.Id == productIn.ProductId);
+        public async Task RemoveAsync(Product productIn) =>
+            await _productsCollection.DeleteOneAsync(product => product.Id == productIn.Id);
 
-        public void Remove(string id) => 
-            _productsCollection.DeleteOne(product => product.id == id);
-    }
-
+        public  async Task RemoveAsync(string id) =>
+           await _productsCollection.DeleteOneAsync(product => product.Id == id);
     }
 }

@@ -10,7 +10,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Review.Domain.Interfaces;
+using Review.Domain.Interfaces.DataExtractor;
+using Review.Domain.Interfaces.DBSettings;
+using Review.Domain.Models;
 using Review.Infrastructure;
+using Review.Infrastructure.Services;
 
 namespace Review.API
 {
@@ -26,8 +32,16 @@ namespace Review.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
             services.AddScoped<IDataExtractor, ExternalDataExtractor>();
+            
+            services.Configure<ProductsDatabaseSettings>(
+                Configuration.GetSection(nameof(ProductsDatabaseSettings)));
+
+            services.AddSingleton<IProductsDatabaseSettings>(sp =>
+                sp.GetRequiredService<IOptions<ProductsDatabaseSettings>>().Value);
+            services.AddSingleton<ProductService>();
+
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

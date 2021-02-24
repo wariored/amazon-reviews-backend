@@ -40,7 +40,12 @@ namespace Review.API
             services.AddSingleton<IProductsDatabaseSettings>(sp =>
                 sp.GetRequiredService<IOptions<ProductsDatabaseSettings>>().Value);
             services.AddSingleton<ProductService>();
-
+            
+            services.AddCors(options => options.AddPolicy("ApiCorsPolicy", builder =>
+            {
+                // link should be added as variable env
+                builder.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
+            }));
             services.AddControllers();
         }
 
@@ -55,6 +60,8 @@ namespace Review.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            
+            app.UseCors("ApiCorsPolicy");
 
             app.UseAuthorization();
 

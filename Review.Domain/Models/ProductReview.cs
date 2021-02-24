@@ -5,6 +5,8 @@ namespace Review.Domain.Models
     public class ProductReview
     {
         public string Description { get; set; }
+        
+        public DateTime ReviewDate { get; set; }
 
         public Customer Customer { get; set; }
         

@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Review.API.Helpers;
+using Review.Domain.Exceptions;
 using Review.Domain.Interfaces.DataExtractor;
 using Review.Domain.Models;
-using Review.Infrastructure;
 using Review.Infrastructure.Services;
 
 namespace Review.API.Controllers
@@ -35,14 +37,24 @@ namespace Review.API.Controllers
         public async Task<IActionResult> GetReviewsByProductIdAsync( string productId)
         {
             var urlPrefix = _config.GetValue<string>("ExternalDataInformation:SingleProductReviewsUrlPrefix");
-            var product = await _dataExtractor.GetExternalProductByIdAsync(productId, urlPrefix);
+            Product product;
+            try
+            {
+                product = await _dataExtractor.GetExternalProductByIdAsync(productId, urlPrefix);
+            }
+            catch (ExternalProductNotFoundException)
+            {
+                _logger.Log(LogLevel.Error, string.Format(ErrorMessageHelper.ExternalProductErrorMessage, productId));
+                return NotFound();
+            }
+            
             await _productService.CreateAsync(product);
+            
             return Ok(product);
         }
         
-        [HttpGet("")]
+        [HttpGet("history/list")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Product>))]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetReviewsAsync([FromQuery] string sort = "desc", [FromQuery] int size = 10)
         {
             var products = await _productService.GetListAsync(sort, size);
